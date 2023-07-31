@@ -42,14 +42,13 @@ main :: proc() {
 	move_input := raylib.Vector2{0, 0}
 
 	for !raylib.WindowShouldClose() {
-    get_move_input(&move_input)
+		get_move_input(&move_input)
 
-	if move_input != {0, 0} {
-		ball_direction = linalg.normalize(move_input)
-		ball_position = ball_position + ball_direction * ball_speed
-    } else {
 		ball_direction = {0, 0}
-    }
+		if move_input != {0, 0} do ball_direction = linalg.normalize(move_input)
+
+		ball_position = ball_position + ball_direction * ball_speed
+
 		raylib.BeginDrawing()
 		raylib.ClearBackground(raylib.RAYWHITE)
 
