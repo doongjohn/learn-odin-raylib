@@ -1,8 +1,8 @@
 package main
 
+import "core:fmt"
 import "core:math"
 import "core:math/linalg"
-import "core:fmt"
 import "vendor:raylib"
 
 screen_width :: 800
@@ -16,7 +16,7 @@ get_move_input :: proc(move_input: ^raylib.Vector2) {
 
 	if move_input.x == -1 && raylib.IsKeyReleased(raylib.KeyboardKey.LEFT) do move_input.x = 0
 	if move_input.x == +1 && raylib.IsKeyReleased(raylib.KeyboardKey.RIGHT) do move_input.x = 0
-	if move_input.y == -1  && raylib.IsKeyReleased(raylib.KeyboardKey.UP) do move_input.y = 0
+	if move_input.y == -1 && raylib.IsKeyReleased(raylib.KeyboardKey.UP) do move_input.y = 0
 	if move_input.y == +1 && raylib.IsKeyReleased(raylib.KeyboardKey.DOWN) do move_input.y = 0
 
 	if move_input.x == 0 {
