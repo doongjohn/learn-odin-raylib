@@ -8,6 +8,9 @@ import "vendor:raylib"
 screen_width :: 800
 screen_hight :: 450
 
+prev_time: f64 = 0.0
+delta_time: f64 = 0.0
+
 GameState :: struct {
 	// player input
 	move_input:     raylib.Vector2,
@@ -23,6 +26,9 @@ main :: proc() {
 	defer deinit_game()
 
 	for !raylib.WindowShouldClose() {
+		delta_time = raylib.GetTime() - prev_time
+		prev_time = raylib.GetTime()
+
 		update(&game_state)
 		render(&game_state)
 	}
@@ -33,12 +39,14 @@ init_game :: proc() -> GameState {
 	raylib.InitWindow(screen_width, screen_hight, "odin + raylib")
 	raylib.SetTargetFPS(60)
 
+	prev_time = raylib.GetTime()
+
 	return(
 		GameState {
 			move_input = raylib.Vector2{0, 0},
 			ball_position = raylib.Vector2{screen_width / 2, screen_hight / 2},
 			ball_direction = raylib.Vector2{0, 0},
-			ball_speed = 3.0,
+			ball_speed = 150.0,
 		}
 	)
 }
@@ -59,7 +67,7 @@ update :: proc(game_state: ^GameState) {
 
 	// translate ball position
 	game_state.ball_position =
-		game_state.ball_position + game_state.ball_direction * game_state.ball_speed
+		game_state.ball_position + game_state.ball_direction * (game_state.ball_speed * f32(delta_time))
 }
 
 render :: proc(game_state: ^GameState) {
