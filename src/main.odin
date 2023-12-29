@@ -9,34 +9,26 @@ screen_width :: 800
 screen_hight :: 450
 
 GameState :: struct {
+	// player input
 	move_input:     raylib.Vector2,
+
+	// ball object
 	ball_position:  raylib.Vector2,
 	ball_direction: raylib.Vector2,
 	ball_speed:     f32,
 }
 
-get_move_input :: proc(move_input: ^raylib.Vector2) {
-	if raylib.IsKeyPressed(raylib.KeyboardKey.LEFT) do move_input.x = -1
-	if raylib.IsKeyPressed(raylib.KeyboardKey.RIGHT) do move_input.x = +1
-	if raylib.IsKeyPressed(raylib.KeyboardKey.UP) do move_input.y = -1
-	if raylib.IsKeyPressed(raylib.KeyboardKey.DOWN) do move_input.y = +1
+main :: proc() {
+	game_state := init_game()
+	defer deinit_game()
 
-	if move_input.x == -1 && raylib.IsKeyReleased(raylib.KeyboardKey.LEFT) do move_input.x = 0
-	if move_input.x == +1 && raylib.IsKeyReleased(raylib.KeyboardKey.RIGHT) do move_input.x = 0
-	if move_input.y == -1 && raylib.IsKeyReleased(raylib.KeyboardKey.UP) do move_input.y = 0
-	if move_input.y == +1 && raylib.IsKeyReleased(raylib.KeyboardKey.DOWN) do move_input.y = 0
-
-	if move_input.x == 0 {
-		if raylib.IsKeyDown(raylib.KeyboardKey.LEFT) do move_input.x = -1
-		if raylib.IsKeyDown(raylib.KeyboardKey.RIGHT) do move_input.x = +1
-	}
-	if move_input.y == 0 {
-		if raylib.IsKeyDown(raylib.KeyboardKey.UP) do move_input.y = -1
-		if raylib.IsKeyDown(raylib.KeyboardKey.DOWN) do move_input.y = +1
+	for !raylib.WindowShouldClose() {
+		update(&game_state)
+		render(&game_state)
 	}
 }
 
-init :: proc() -> GameState {
+init_game :: proc() -> GameState {
 	raylib.SetConfigFlags({raylib.ConfigFlag.MSAA_4X_HINT})
 	raylib.InitWindow(screen_width, screen_hight, "odin + raylib")
 	raylib.SetTargetFPS(60)
@@ -49,6 +41,10 @@ init :: proc() -> GameState {
 			ball_speed = 3.0,
 		}
 	)
+}
+
+deinit_game :: proc() {
+	raylib.CloseWindow()
 }
 
 update :: proc(game_state: ^GameState) {
@@ -73,13 +69,23 @@ render :: proc(game_state: ^GameState) {
 	raylib.EndDrawing()
 }
 
-main :: proc() {
-	game_state := init()
+get_move_input :: proc(move_input: ^raylib.Vector2) {
+	if raylib.IsKeyPressed(raylib.KeyboardKey.LEFT) do move_input.x = -1
+	if raylib.IsKeyPressed(raylib.KeyboardKey.RIGHT) do move_input.x = +1
+	if raylib.IsKeyPressed(raylib.KeyboardKey.UP) do move_input.y = -1
+	if raylib.IsKeyPressed(raylib.KeyboardKey.DOWN) do move_input.y = +1
 
-	for !raylib.WindowShouldClose() {
-		update(&game_state)
-		render(&game_state)
+	if move_input.x == -1 && raylib.IsKeyReleased(raylib.KeyboardKey.LEFT) do move_input.x = 0
+	if move_input.x == +1 && raylib.IsKeyReleased(raylib.KeyboardKey.RIGHT) do move_input.x = 0
+	if move_input.y == -1 && raylib.IsKeyReleased(raylib.KeyboardKey.UP) do move_input.y = 0
+	if move_input.y == +1 && raylib.IsKeyReleased(raylib.KeyboardKey.DOWN) do move_input.y = 0
+
+	if move_input.x == 0 {
+		if raylib.IsKeyDown(raylib.KeyboardKey.LEFT) do move_input.x = -1
+		if raylib.IsKeyDown(raylib.KeyboardKey.RIGHT) do move_input.x = +1
 	}
-
-	raylib.CloseWindow()
+	if move_input.y == 0 {
+		if raylib.IsKeyDown(raylib.KeyboardKey.UP) do move_input.y = -1
+		if raylib.IsKeyDown(raylib.KeyboardKey.DOWN) do move_input.y = +1
+	}
 }
