@@ -25,8 +25,7 @@ main :: proc() {
 
 	for !raylib.WindowShouldClose() {
 		delta_time = raylib.GetFrameTime()
-
-		raylib.DrawFPS(10, 10);
+		raylib.DrawFPS(10, 10)
 
 		update(&game_state)
 		render(&game_state)
@@ -47,7 +46,7 @@ init_game :: proc() -> GameState {
 		ball_position = raylib.Vector2{screen_width / 2, screen_hight / 2},
 		ball_direction = raylib.Vector2{0, 0},
 		ball_speed = 150.0,
-	};
+	}
 }
 
 deinit_game :: proc() {
