@@ -7,9 +7,7 @@ import "vendor:raylib"
 
 screen_width :: 800
 screen_hight :: 450
-
-prev_time: f64 = 0.0
-delta_time: f64 = 0.0
+delta_time: f32 = 0.0
 
 GameState :: struct {
 	// player input
@@ -26,8 +24,9 @@ main :: proc() {
 	defer deinit_game()
 
 	for !raylib.WindowShouldClose() {
-		delta_time = raylib.GetTime() - prev_time
-		prev_time = raylib.GetTime()
+		delta_time = raylib.GetFrameTime()
+
+		raylib.DrawFPS(10, 10);
 
 		update(&game_state)
 		render(&game_state)
@@ -35,20 +34,20 @@ main :: proc() {
 }
 
 init_game :: proc() -> GameState {
-	raylib.SetConfigFlags({raylib.ConfigFlag.MSAA_4X_HINT})
-	raylib.InitWindow(screen_width, screen_hight, "odin + raylib")
+	raylib.SetConfigFlags({
+		raylib.ConfigFlag.WINDOW_RESIZABLE,
+		raylib.ConfigFlag.MSAA_4X_HINT,
+		raylib.ConfigFlag.VSYNC_HINT,
+	})
 	raylib.SetTargetFPS(60)
+	raylib.InitWindow(screen_width, screen_hight, "odin + raylib")
 
-	prev_time = raylib.GetTime()
-
-	return(
-		GameState {
-			move_input = raylib.Vector2{0, 0},
-			ball_position = raylib.Vector2{screen_width / 2, screen_hight / 2},
-			ball_direction = raylib.Vector2{0, 0},
-			ball_speed = 150.0,
-		}
-	)
+	return {
+		move_input = raylib.Vector2{0, 0},
+		ball_position = raylib.Vector2{screen_width / 2, screen_hight / 2},
+		ball_direction = raylib.Vector2{0, 0},
+		ball_speed = 150.0,
+	};
 }
 
 deinit_game :: proc() {
