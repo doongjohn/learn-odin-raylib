@@ -38,7 +38,7 @@ init_game :: proc() -> GameState {
 		raylib.ConfigFlag.MSAA_4X_HINT,
 		raylib.ConfigFlag.VSYNC_HINT,
 	})
-	raylib.SetTargetFPS(60)
+	// raylib.SetTargetFPS(60)
 	raylib.InitWindow(screen_width, screen_hight, "odin + raylib")
 
 	return {
