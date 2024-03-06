@@ -33,20 +33,22 @@ main :: proc() {
 }
 
 init_game :: proc() -> GameState {
-	raylib.SetConfigFlags({
-		raylib.ConfigFlag.WINDOW_RESIZABLE,
-		raylib.ConfigFlag.MSAA_4X_HINT,
-		raylib.ConfigFlag.VSYNC_HINT,
-	})
-	// raylib.SetTargetFPS(60)
+	raylib.SetConfigFlags(
+		 {
+			raylib.ConfigFlag.WINDOW_RESIZABLE,
+			raylib.ConfigFlag.MSAA_4X_HINT,
+			raylib.ConfigFlag.VSYNC_HINT,
+		},
+	)
 	raylib.InitWindow(screen_width, screen_hight, "odin + raylib")
 
-	return {
-		move_input = raylib.Vector2{0, 0},
-		ball_position = raylib.Vector2{screen_width / 2, screen_hight / 2},
+	initial_state := GameState {
+		move_input     = raylib.Vector2{0, 0},
+		ball_position  = raylib.Vector2{screen_width / 2, screen_hight / 2},
 		ball_direction = raylib.Vector2{0, 0},
-		ball_speed = 150.0,
+		ball_speed     = 150.0,
 	}
+	return initial_state
 }
 
 deinit_game :: proc() {
@@ -65,7 +67,7 @@ update :: proc(game_state: ^GameState) {
 
 	// translate ball position
 	game_state.ball_position =
-		game_state.ball_position + game_state.ball_direction * (game_state.ball_speed * f32(delta_time))
+		game_state.ball_position + game_state.ball_direction * (game_state.ball_speed * delta_time)
 }
 
 render :: proc(game_state: ^GameState) {
