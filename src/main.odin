@@ -41,12 +41,13 @@ init_game :: proc() -> GameState {
 		},
 	)
 	raylib.InitWindow(screen_width, screen_hight, "odin + raylib")
+	raylib.SetTargetFPS(60)
 
 	initial_state := GameState {
 		move_input     = raylib.Vector2{0, 0},
 		ball_position  = raylib.Vector2{screen_width / 2, screen_hight / 2},
 		ball_direction = raylib.Vector2{0, 0},
-		ball_speed     = 150.0,
+		ball_speed     = 200.0,
 	}
 	return initial_state
 }
@@ -73,7 +74,7 @@ update :: proc(game_state: ^GameState) {
 render :: proc(game_state: ^GameState) {
 	raylib.BeginDrawing()
 	raylib.ClearBackground(raylib.RAYWHITE)
-	raylib.DrawCircleV(game_state.ball_position, 25, raylib.Color{4, 117, 62, 255})
+	raylib.DrawCircleV(game_state.ball_position, 30, raylib.Color{4, 117, 62, 255})
 	raylib.EndDrawing()
 }
 
