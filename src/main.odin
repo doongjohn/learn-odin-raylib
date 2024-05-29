@@ -34,7 +34,7 @@ main :: proc() {
 
 init_game :: proc() -> GameState {
 	raylib.SetConfigFlags(
-		 {
+		{
 			raylib.ConfigFlag.WINDOW_RESIZABLE,
 			raylib.ConfigFlag.MSAA_4X_HINT,
 			raylib.ConfigFlag.VSYNC_HINT,
