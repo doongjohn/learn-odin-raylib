@@ -74,7 +74,7 @@ update :: proc(game_state: ^GameState) {
 render :: proc(game_state: ^GameState) {
 	raylib.BeginDrawing()
 	raylib.ClearBackground(raylib.RAYWHITE)
-	raylib.DrawCircleV(game_state.ball_position, 30, raylib.Color{4, 117, 62, 255})
+	raylib.DrawCircleV(game_state.ball_position, 30, raylib.Color{94, 184, 255, 255})
 	raylib.EndDrawing()
 }
 
