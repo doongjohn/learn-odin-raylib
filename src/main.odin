@@ -5,8 +5,9 @@ import "core:math"
 import "core:math/linalg"
 import "vendor:raylib"
 
-win_width :: 800
-win_hight :: 450
+WIN_WIDTH :: 800
+WIN_HIGHT :: 450
+
 delta_time: f32 = 0.0
 
 GameState :: struct {
@@ -40,12 +41,12 @@ init_game :: proc() -> GameState {
 			raylib.ConfigFlag.VSYNC_HINT,
 		},
 	)
-	raylib.InitWindow(win_width, win_hight, "odin + raylib")
+	raylib.InitWindow(WIN_WIDTH, WIN_HIGHT, "odin + raylib")
 	raylib.SetTargetFPS(60)
 
 	initial_state := GameState {
 		move_input     = raylib.Vector2{0, 0},
-		ball_position  = raylib.Vector2{win_width / 2, win_hight / 2},
+		ball_position  = raylib.Vector2{WIN_WIDTH / 2, WIN_HIGHT / 2},
 		ball_direction = raylib.Vector2{0, 0},
 		ball_speed     = 200.0,
 	}
